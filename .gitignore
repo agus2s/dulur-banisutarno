@@ -1,0 +1,118 @@
+# =====================================================
+# Blog Dulur (PHP + MySQL) — .gitignore
+# Prinsip:
+#   - COMMIT: kode, .env.example, database.sql (seed),
+#     uploads/.htaccess (keamanan)
+#   - JANGAN COMMIT: .env (kredensial), isi uploads/,
+#     node_modules, file runtime/log/dump lokal
+# =====================================================
+
+# ---------- Env & secrets (WAJIB di-ignore) ----------
+# .env lokal berisi DB_PASS dll — jangan pernah di-commit.
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ---------- Dependencies ----------
+# Node (cadangan bila kelak ada tooling JS)
+node_modules/
+
+# PHP Composer (cadangan bila kelak pakai composer)
+vendor/
+composer.phar
+
+# ---------- Build output & cache ----------
+dist/
+build/
+
+# Vite / npm cache
+.npm/
+.eslintcache
+.stylelintcache
+
+# ---------- Uploads (konten user) ----------
+# Abaikan semua file upload pengguna, TAPI tetap commit
+# uploads/.htaccess (pembatas hanya gambar + matikan PHP engine).
+uploads/*
+!uploads/.htaccess
+!uploads/.gitkeep
+
+# ---------- State / runtime lokal ----------
+# Folder state/ kosong & tidak dipakai kode — abaikan isinya.
+state/*
+!state/.gitkeep
+
+# Lock / flag instalasi lokal (bila kelak dipakai)
+install.lock
+!package-lock.json
+!composer.lock
+
+# ---------- Database ----------
+# database.sql adalah SEED awal → tetap di-commit (lihat negasi).
+# Abaikan dump/backup lokal lainnya (mis. hasil export phpMyAdmin).
+*.sql
+!database.sql
+*.sql.gz
+*.sql.bak
+*.bak.sql
+dump*.sql
+backup*.sql
+*.sqlite
+*.sqlite-journal
+*.db
+
+# ---------- Logs ----------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+error_log
+php_errorlog
+logs/
+log/
+
+# ---------- OS ----------
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ---------- Editor / IDE ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+nbproject/
+
+# ---------- PHP / XAMPP / hosting ----------
+*.cache
+*.tmp
+*.temp
+.sass-cache/
+sessions/
+sess_*
+
+# File backup editor & sistem
+*.bak
+*.orig
+*.rej
+*#
+
+# ---------- Misc ----------
+coverage/
+.nyc_output/
+.parcel-cache/
+.cache/
+temp/
+tmp/

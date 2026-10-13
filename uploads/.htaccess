@@ -1,0 +1,9 @@
+# Blog Dulur — batasi uploads/ hanya untuk berkas gambar (sintaks Apache 2.4).
+Options -Indexes
+Require all denied
+<FilesMatch "(?i)\.(jpg|jpeg|png|gif|webp|svg|avif)$">
+    Require all granted
+</FilesMatch>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
