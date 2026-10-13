@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // Loader .env minimal tanpa dependensi.
 // Format: KEY=VALUE, baris kosong & diawali # diabaikan.
 // Nilai boleh dikutip ("..." / '...'), komentar inline pakai # (di luar kutip).

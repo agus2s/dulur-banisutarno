@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API pengaturan publik.
 // GET api/settings.php -> { site_name, site_desc, footer_text, grad_from, grad_to, accent, show_source, comments_enabled, comments_auto_approve }
 header('Content-Type: application/json; charset=utf-8');

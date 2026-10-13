@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API logout.
 // POST api/logout.php -> { ok: true }
 header('Content-Type: application/json; charset=utf-8');

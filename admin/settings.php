@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/layout.php';
@@ -79,7 +80,7 @@ adminlte_head('Pengaturan Umum', 'settings');
             </div>
             <div class="mb-3">
               <label class="form-label fw-bold d-flex align-items-center gap-1"><i data-lucide="text"></i> Teks footer</label>
-              <input type="text" name="footer_text" class="form-control" maxlength="255" value="<?= e(footer_text()) ?>" placeholder="Blog Dulur • Berbagi tulisan dan kabar">
+              <input type="text" name="footer_text" class="form-control" maxlength="255" value="<?= e(footer_text()) ?>" placeholder="© 2026 Agus Supriyadi • Blog Dulur">
               <div class="form-text">Tampil di kaki halaman utama.</div>
             </div>
             <div class="mb-3">

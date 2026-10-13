@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API ganti password user yang sedang login.
 // POST api/change-password.php { "current": "...", "new": "...", "confirm": "..." }
 //      -> { ok: true }

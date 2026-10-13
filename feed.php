@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // RSS 2.0 feed publik — 20 artikel terbaru berstatus published.
 // URL: feed.php
 require_once __DIR__ . '/includes/db.php';

@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API like/unlike artikel (tanpa login, dedup via visitor_hash).
 // GET  api/likes.php?slug=judul-artikel        -> { likes, liked }
 // POST api/likes.php  { "slug": "...", "action": "like" | "unlike" }

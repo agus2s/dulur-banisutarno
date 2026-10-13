@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 session_start();
 
 function e(?string $s): string {
@@ -78,6 +79,23 @@ function unique_page_slug(PDO $pdo, string $title, ?int $ignoreId = null): strin
     }
 }
 
+/** Pastikan slug halaman unik (tambah -2, -3, ... bila perlu).
+ *  Dipakai saat admin mengisi slug manual di form. */
+function unique_page_slug_for(PDO $pdo, string $slug, ?int $ignoreId = null): string {
+    $slug = slugify($slug);
+    if ($slug === '') $slug = 'tanpa-judul';
+    $base = $slug; $i = 1;
+    while (true) {
+        $sql = 'SELECT id FROM pages WHERE slug = ?';
+        $params = [$slug];
+        if ($ignoreId) { $sql .= ' AND id != ?'; $params[] = $ignoreId; }
+        $st = $pdo->prepare($sql);
+        $st->execute($params);
+        if (!$st->fetch()) return $slug;
+        $slug = $base . '-' . (++$i);
+    }
+}
+
 /** Ambil excerpt polos dari markdown */
 function markdown_excerpt(string $md, int $len = 160): string {
     $txt = preg_replace('/```.*?```/s', ' ', $md);
@@ -89,6 +107,25 @@ function markdown_excerpt(string $md, int $len = 160): string {
 
 function is_logged_in(): bool {
     return !empty($_SESSION['user_id']);
+}
+
+/** Baris pengguna yang sedang login (id, username, display_name, email) atau null. */
+function current_user(): ?array {
+    if (empty($_SESSION['user_id'])) return null;
+    try {
+        $st = db()->prepare('SELECT id, username, display_name, email FROM users WHERE id = ? LIMIT 1');
+        $st->execute([$_SESSION['user_id']]);
+        $u = $st->fetch();
+        return $u ?: null;
+    } catch (Throwable $e) { return null; }
+}
+
+/** Nama tampilan pengguna login (jatuh kembali ke username). */
+function display_name(): string {
+    $u = current_user();
+    $d = trim((string)($u['display_name'] ?? ''));
+    if ($d !== '') return $d;
+    return (string)($_SESSION['username'] ?? 'Admin');
 }
 
 /** Fingerprint pengunjung (IP + User-Agent + salt) untuk dedup like tanpa login.
@@ -205,7 +242,7 @@ function site_desc(): string {
 }
 
 function footer_text(): string {
-    return setting('footer_text', 'Blog Dulur • Berbagi tulisan dan kabar');
+    return setting('footer_text', '© 2026 Agus Supriyadi • Blog Dulur');
 }
 
 /** Warna gradien hero (disetel via Admin → Pengaturan, selalu hex valid). */

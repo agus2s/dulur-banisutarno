@@ -80,6 +80,10 @@ subfolder) atau `page.php?slug=...` (URL lama).
 5. Halaman keluarga **default disembunyikan** dari menu navigasi — centang
    *Tampilkan di menu navigasi* bila ingin menampilkannya.
 
+**Slug halaman bisa diganti manual** di kolom Slug pada form (otomatis dari
+judul bila dikosongkan). Slug yang bentrok otomatis diberi akhiran `-2`,
+`-3`, dst. Ingat: mengganti slug mengubah permalink, URL lama tidak aktif.
+
 ## Tanya jawab
 
 - **Pratinjau kosong?** Mulai ketik `# Judul` di kolom Markdown.

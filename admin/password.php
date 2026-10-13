@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/layout.php';
@@ -56,7 +57,7 @@ adminlte_head('Ganti Kata Sandi', 'password');
       <div class="card" style="max-width:560px">
         <form method="post">
           <div class="card-body">
-            <p class="text-muted small">Masuk sebagai <strong><?= e($_SESSION['username'] ?? '') ?></strong>. Kata sandi baru minimal 6 karakter.</p>
+            <p class="text-muted small">Masuk sebagai <strong><?= e(display_name()) ?></strong>. Kata sandi baru minimal 6 karakter.</p>
             <div class="mb-3">
               <label class="form-label fw-bold">Kata Sandi Lama</label>
               <input type="password" name="current" class="form-control" required autocomplete="current-password" autofocus>

@@ -6,6 +6,7 @@ Blog sederhana tanpa framework. **Isi artikel disimpan sebagai Markdown mentah**
 - Publik: daftar artikel, pencarian, pagination, detail + view sumber Markdown, related posts, view counter, **halaman statis** (`/halaman/slug`)
 - Halaman **keluarga**: jenis halaman statis berisi deskripsi + diagram silsilah Mermaid, opsi tampil di navigasi (default sembunyi)
 - Frontend: PHP klasik server-side (render langsung, tanpa proses build)
+- Mode gelap: mengikuti preferensi OS + tombol bulan/matahari di navigasi (tersimpan per-perangkat)
 - Admin: login, dashboard, **editor Markdown split-view** (toolbar, live preview offline, autosave draft, word count, tombol Tab), CRUD halaman statis
 - Markdown support: heading, bold/italic/strike, link, gambar, code block, list, task list, quote, tabel, HR
 - Aman: PDO prepared statement, `password_hash`, escaping output
@@ -20,7 +21,7 @@ Blog sederhana tanpa framework. **Isi artikel disimpan sebagai Markdown mentah**
 6. Login admin: `http://localhost/blog-dulur/admin/login.php` → `admin` / `admin123`
 
 ## 🗄️ Struktur DB
-- `users(id, username, password)`
+- `users(id, username, password [bcrypt], display_name, email)`
 - `posts(id, title, slug, excerpt, cover, content_md [MARKDOWN], status, views, created_at, updated_at)`
 - `pages(id, title, slug, content_md [MARKDOWN], kind [biasa|family], show_in_nav, mermaid, status, created_at, updated_at)`
 

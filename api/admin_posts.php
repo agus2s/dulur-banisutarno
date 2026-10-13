@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API CRUD Posts untuk Admin Panel (terproteksi session).
 // GET    api/admin_posts.php                 -> { posts: [...] } (semua status)
 // GET    api/admin_posts.php?slug=xxx        -> { post: {...} } (1 post + content_md)

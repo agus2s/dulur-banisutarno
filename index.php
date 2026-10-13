@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/helpers.php';
 
@@ -48,8 +49,10 @@ try {
 <link rel="apple-touch-icon" href="<?= base_url('assets/icons/apple-touch-icon.png') ?>">
 <link rel="manifest" href="<?= base_url('manifest.webmanifest') ?>">
 <meta name="theme-color" content="#4f46e5">
+<meta name="color-scheme" content="light dark">
+<script>try{if((localStorage.getItem('tema')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
 <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
-<style>:root{--brand:<?= e(accent()) ?>;--brand2:<?= e(shade_hex(accent(), 0.8)) ?>}.logo span{color:color-mix(in srgb, var(--brand) 55%, #fff)}.badge{background:color-mix(in srgb, var(--brand) 12%, #fff)}</style>
+<style>:root{--brand:<?= e(accent()) ?>;--brand2:<?= e(shade_hex(accent(), 0.8)) ?>;--grad-from:<?= e(grad_from()) ?>;--grad-to:<?= e(grad_to()) ?>}.logo span{color:color-mix(in srgb, var(--brand) 55%, #fff)}.badge{background:color-mix(in srgb, var(--brand) 12%, #fff)}</style>
 <style>
   body{font-family:"Inter",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif}
   .lucide{width:16px;height:16px;vertical-align:-3px}
@@ -69,6 +72,7 @@ try {
     <?php foreach ($navPages as $np): ?>
       <a href="<?= page_url($np['slug']) ?>"><i data-lucide="file-text"></i><?= e($np['title']) ?></a>
     <?php endforeach; ?>
+    <button type="button" id="theme-toggle" class="theme-toggle" title="Mode gelap" aria-label="Ganti tema gelap/terang"><i data-lucide="moon"></i></button>
   </div>
 </div></nav>
 
@@ -123,5 +127,6 @@ try {
 </main>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>lucide.createIcons();</script>
+<script src="<?= base_url('assets/theme.js') ?>"></script>
 </body>
 </html>

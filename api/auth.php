@@ -1,7 +1,9 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API autentikasi pengguna.
 // POST api/auth.php  { "username": "admin", "password": "secret" }
-//      -> { "ok": true, "user_id": 1, "username": "admin", "token": "..." }
+//      username bisa berupa username ATAU email.
+//      -> { "ok": true, "user_id": 1, "username": "admin", "display_name": "...", "email": "...", "token": "..." }
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
@@ -24,7 +26,9 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     session_start();
     if (!empty($_SESSION['user_id'])) {
-        out(['ok' => true, 'user_id' => (int)$_SESSION['user_id'], 'username' => $_SESSION['username'] ?? 'admin']);
+        $me = current_user();
+        out(['ok' => true, 'user_id' => (int)$_SESSION['user_id'], 'username' => $_SESSION['username'] ?? 'admin',
+            'display_name' => $me['display_name'] ?? ($_SESSION['username'] ?? 'admin'), 'email' => $me['email'] ?? null]);
     }
     out(['error' => 'Belum login'], 401);
 }
@@ -38,8 +42,8 @@ $password = (string)($input['password'] ?? '');
 if ($username === '' || $password === '') out(['error' => 'Username dan password wajib'], 422);
 
 try {
-    $st = $pdo->prepare('SELECT id, username, password FROM users WHERE username = ? LIMIT 1');
-    $st->execute([$username]);
+    $st = $pdo->prepare('SELECT id, username, display_name, email, password FROM users WHERE username = ? OR email = ? LIMIT 1');
+    $st->execute([$username, $username]);
     $user = $st->fetch();
     if (!$user || !password_verify($password, $user['password'])) {
         out(['error' => 'Kredensial tidak valid'], 401);
@@ -51,7 +55,9 @@ try {
     // Token sederhana berbasis session
     $token = hash('sha256', session_id() . $_SERVER['REMOTE_ADDR'] . $user['id']);
 
-    out(['ok' => true, 'user_id' => (int)$user['id'], 'username' => $user['username'], 'token' => $token]);
+    out(['ok' => true, 'user_id' => (int)$user['id'], 'username' => $user['username'],
+        'display_name' => $user['display_name'] !== '' ? $user['display_name'] : $user['username'],
+        'email' => $user['email'], 'token' => $token]);
 } catch (PDOException $e) {
     out(['error' => $e->getMessage()], 500);
 }

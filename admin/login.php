@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php';
 
@@ -8,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = trim($_POST['username'] ?? '');
     $p = $_POST['password'] ?? '';
     try {
-        $st = db()->prepare('SELECT * FROM users WHERE username = ? LIMIT 1');
-        $st->execute([$u]);
+        $st = db()->prepare('SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1');
+        $st->execute([$u, $u]);
         $user = $st->fetch();
         if ($user && password_verify($p, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
@@ -58,7 +59,7 @@ body { font-family: var(--bs-body-font-family); font-feature-settings: 'cv11','s
       <?php if ($error): ?><div class="alert alert-danger d-flex align-items-center gap-2"><i data-lucide="triangle-alert"></i> <?= e($error) ?></div><?php endif; ?>
       <form method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="Nama Pengguna" required autofocus>
+          <input type="text" name="username" class="form-control" placeholder="Nama Pengguna atau Email" required autofocus>
           <span class="input-group-text"><i data-lucide="user"></i></span>
         </div>
         <div class="input-group mb-3">

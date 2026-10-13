@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API komentar artikel.
 // GET  api/comments.php?slug=judul-artikel          -> { enabled, total, comments:[...] }
 // POST api/comments.php  { slug, author, email?, content, parent_id?, website? }

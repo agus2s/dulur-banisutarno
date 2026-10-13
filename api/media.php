@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API Media Manager (Admin)
 // GET    api/media.php                 -> daftar berkas gambar di uploads/
 //          ?limit=48&page=1            -> paginasi ({ files, total, page, limit, has_more })

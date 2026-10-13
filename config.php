@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // Konfigurasi utama Blog Dulur
 // Nilai dibaca dari .env (lihat .env.example). Konstanta di bawah = fallback
 // bila .env / environment variable tidak tersedia.

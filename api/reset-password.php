@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // API minta reset password.
 // POST api/reset-password.php { "email": "admin@example.com" }
 //      -> { ok: true, message: "Jika email terdaftar, link reset telah dikirim." }
@@ -23,8 +24,8 @@ if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) out(['error' =>
 
 try {
     $pdo = db();
-    $st = $pdo->prepare('SELECT id FROM users WHERE username = ? LIMIT 1');
-    $st->execute([$email]); // jika email = username di aplikasi ini
+    $st = $pdo->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
+    $st->execute([$email]);
     $user = $st->fetch();
 
     // Simulasikan pengiriman email (di aplikasi nyata, kirim email dengan link token)

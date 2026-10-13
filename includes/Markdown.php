@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 /**
  * Markdown — parser ringan tanpa dependensi (support GFM subset).
  * Penyimpanan: markdown mentah disimpan di kolom content_md.

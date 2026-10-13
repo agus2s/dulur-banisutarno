@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 require_once __DIR__ . '/../config.php';
 
 function db(): PDO {

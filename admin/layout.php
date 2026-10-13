@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // Layout AdminLTE 4 + Lucide untuk panel admin Blog Dulur.
 require_once __DIR__ . '/../includes/helpers.php';
 
@@ -71,10 +72,11 @@ body { font-family: var(--bs-body-font-family); font-feature-settings: 'cv11', '
       <li class="nav-item"><a class="nav-link" href="#" data-lte-toggle="fullscreen"><i data-lucide="maximize"></i></a></li>
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-          <i data-lucide="circle-user-round"></i> <span class="d-none d-md-inline"><?= e($_SESSION['username'] ?? 'Admin') ?></span>
+          <i data-lucide="circle-user-round"></i> <span class="d-none d-md-inline"><?= e(display_name()) ?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a href="<?= base_url('index.php') ?>" class="dropdown-item"><i data-lucide="globe"></i> Kunjungi Situs</a></li>
+          <li><a href="<?= base_url('admin/user_edit.php?id=' . (int)($_SESSION['user_id'] ?? 0)) ?>" class="dropdown-item"><i data-lucide="circle-user-round"></i> Profil Saya</a></li>
           <li><a href="<?= base_url('admin/password.php') ?>" class="dropdown-item"><i data-lucide="key-round"></i> Ganti Kata Sandi</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a href="<?= base_url('admin/logout.php') ?>" class="dropdown-item text-danger"><i data-lucide="log-out"></i> Keluar</a></li>
@@ -142,6 +144,11 @@ body { font-family: var(--bs-body-font-family); font-feature-settings: 'cv11', '
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?= base_url('admin/users.php') ?>" class="nav-link <?= $active === 'users' ? 'active' : '' ?>">
+            <i class="nav-icon" data-lucide="users"></i><p>Pengguna</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?= base_url('admin/password.php') ?>" class="nav-link <?= $active === 'password' ? 'active' : '' ?>">
             <i class="nav-icon" data-lucide="key-round"></i><p>Ganti Kata Sandi</p>
           </a>
@@ -162,7 +169,7 @@ function adminlte_footer(): void {
 ?>
 <footer class="app-footer">
   <div class="float-end d-none d-sm-inline">Konten tersimpan otomatis</div>
-  <strong><?= e(site_name()) ?></strong>
+  <strong><?= e(site_name()) ?></strong> • © 2026 Agus Supriyadi
 </footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

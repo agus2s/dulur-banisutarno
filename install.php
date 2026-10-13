@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // Installer Blog Dulur — buka http://localhost/blog-dulur/install.php
 require_once __DIR__ . '/config.php';
 
@@ -13,7 +14,9 @@ try {
     $pdo->exec("CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL COMMENT 'Hash bcrypt via password_hash',
+        display_name VARCHAR(100) NOT NULL DEFAULT '',
+        email VARCHAR(160) NULL UNIQUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
@@ -75,9 +78,16 @@ try {
         "ALTER TABLE pages ADD COLUMN kind VARCHAR(20) NOT NULL DEFAULT 'biasa' COMMENT 'biasa | family'",
         'ALTER TABLE pages ADD COLUMN show_in_nav TINYINT(1) NOT NULL DEFAULT 1 COMMENT \'1 = tampil di menu navigasi\'',
         "ALTER TABLE pages ADD COLUMN mermaid MEDIUMTEXT NULL COMMENT 'Diagram silsilah (halaman family)'",
+        "ALTER TABLE users ADD COLUMN display_name VARCHAR(100) NOT NULL DEFAULT ''",
+        'ALTER TABLE users ADD COLUMN email VARCHAR(160) NULL UNIQUE',
     ] as $alter) {
         try { $pdo->exec($alter); } catch (PDOException $e) { /* kolom sudah ada */ }
     }
+    // Isi display_name kosong dari username (DB lama).
+    try {
+        $pdo->exec("UPDATE users SET display_name = username WHERE display_name = ''");
+        $pdo->exec("UPDATE users SET display_name = 'Administrator' WHERE username = 'admin' AND display_name IN ('', 'admin')");
+    } catch (PDOException $e) {}
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS settings (
         `k` VARCHAR(50) NOT NULL PRIMARY KEY,
@@ -89,8 +99,8 @@ try {
     $st = $pdo->prepare('SELECT id FROM users WHERE username = ?');
     $st->execute(['admin']);
     if (!$st->fetch()) {
-        $pdo->prepare('INSERT INTO users (username, password) VALUES (?,?)')
-            ->execute(['admin', password_hash('admin123', PASSWORD_DEFAULT)]);
+        $pdo->prepare('INSERT INTO users (username, password, display_name, email) VALUES (?,?,?,?)')
+            ->execute(['admin', password_hash('admin123', PASSWORD_DEFAULT), 'Administrator', null]);
         $msg[] = '✅ User admin dibuat (admin / admin123). Segera ganti password!';
     } else $msg[] = 'ℹ️ User admin sudah ada.';
 
@@ -241,7 +251,7 @@ MERMAID;
         $insSet = $pdo->prepare("INSERT INTO settings (`k`, `v`) VALUES (?,?)");
         $insSet->execute(['site_name', SITE_NAME]);
         $insSet->execute(['site_desc', SITE_DESC]);
-        $insSet->execute(['footer_text', 'Blog Dulur • Berbagi tulisan dan kabar']);
+        $insSet->execute(['footer_text', '© 2026 Agus Supriyadi • Blog Dulur']);
         $insSet->execute(['grad_from', '#4f46e5']);
         $insSet->execute(['grad_to', '#db2777']);
         $insSet->execute(['accent', '#4f46e5']);

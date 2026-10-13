@@ -1,3 +1,4 @@
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 // Editor Markdown Blog Dulur: toolbar + live preview + autosave
 (function () {
   const ta = document.getElementById('md-input');

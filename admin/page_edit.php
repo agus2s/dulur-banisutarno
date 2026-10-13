@@ -1,4 +1,5 @@
 <?php
+// © 2026 Agus Supriyadi — Blog Dulur. Hak cipta dilindungi undang-undang.
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/layout.php';
@@ -6,7 +7,7 @@ require_login();
 $pdo = db();
 
 $id = (int)($_GET['id'] ?? 0);
-$page = ['id' => 0, 'title' => '', 'status' => 'published', 'kind' => 'biasa', 'show_in_nav' => 1, 'content_md' => '', 'mermaid' => ''];
+$page = ['id' => 0, 'title' => '', 'slug' => '', 'status' => 'published', 'kind' => 'biasa', 'show_in_nav' => 1, 'content_md' => '', 'mermaid' => ''];
 if ($id) {
     $st = $pdo->prepare('SELECT * FROM pages WHERE id = ? LIMIT 1');
     $st->execute([$id]);
@@ -24,13 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flash('Judul dan isi wajib diisi.', 'danger');
     } else {
         $pid = (int)($_POST['id'] ?? 0);
+        // Slug manual bila diisi, otomatis dari judul bila dikosongkan.
+        $slugIn = slugify(trim((string)($_POST['slug'] ?? '')));
+        $slug = ($slugIn !== '' && $slugIn !== 'tanpa-judul')
+            ? unique_page_slug_for($pdo, $slugIn, $pid ?: null)
+            : unique_page_slug($pdo, $title, $pid ?: null);
         if ($pid) {
-            $slug = unique_page_slug($pdo, $title, $pid);
             $st = $pdo->prepare('UPDATE pages SET title=?, slug=?, content_md=?, kind=?, show_in_nav=?, mermaid=?, status=?, updated_at=NOW() WHERE id=?');
             $st->execute([$title, $slug, $md, $kind, $showNav, $mermaid !== '' ? $mermaid : null, $status, $pid]);
             flash('Halaman diperbarui. Alamat: /halaman/' . $slug);
         } else {
-            $slug = unique_page_slug($pdo, $title);
             $st = $pdo->prepare("INSERT INTO pages (title, slug, content_md, kind, show_in_nav, mermaid, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?,NOW(),NOW())");
             $st->execute([$title, $slug, $md, $kind, $showNav, $mermaid !== '' ? $mermaid : null, $status]);
             $pid = (int)$pdo->lastInsertId();
@@ -86,6 +90,14 @@ adminlte_head($page['id'] ? 'Sunting Halaman' : 'Tambah Halaman Baru', 'page_tul
             <div class="mb-3">
               <label class="form-label fw-bold">Judul</label>
               <input type="text" id="title-input" name="title" class="form-control form-control-lg" required value="<?= e($page['title']) ?>" placeholder="Tambahkan judul…">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold d-flex align-items-center gap-1" for="slug-input"><i data-lucide="link"></i> Slug (permalink)</label>
+              <div class="input-group">
+                <span class="input-group-text">/halaman/</span>
+                <input type="text" id="slug-input" name="slug" class="form-control font-monospace" value="<?= e($page['slug'] ?? '') ?>" placeholder="otomatis-dari-judul" autocomplete="off">
+              </div>
+              <div class="form-text">Kosongkan untuk otomatis dari judul. Mengubah slug mengubah alamat — URL lama tidak aktif. Pratinjau: <code id="slug-preview"></code></div>
             </div>
             <div class="row g-3">
               <div class="col-md-3">
@@ -184,6 +196,21 @@ adminlte_head($page['id'] ? 'Sunting Halaman' : 'Tambah Halaman Baru', 'page_tul
     if (isNew && nav) nav.checked = !fam;
   }
   if (kind) { kind.addEventListener('change', sync); sync(); }
+  // Pratinjau permalink dari slug manual / judul.
+  var slugInput = document.getElementById('slug-input');
+  var titleInput = document.getElementById('title-input');
+  var preview = document.getElementById('slug-preview');
+  function jsSlug(s) {
+    return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'tanpa-judul';
+  }
+  function syncPreview() {
+    if (!preview) return;
+    var v = slugInput && slugInput.value.trim() !== '' ? slugInput.value : (titleInput ? titleInput.value : '');
+    preview.textContent = '/halaman/' + jsSlug(v);
+  }
+  if (slugInput) slugInput.addEventListener('input', syncPreview);
+  if (titleInput) titleInput.addEventListener('input', syncPreview);
+  syncPreview();
 })();
 </script>
 </body></html>

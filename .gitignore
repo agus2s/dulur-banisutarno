@@ -116,3 +116,9 @@ coverage/
 .cache/
 temp/
 tmp/
+
+# Arsip lokal (sering berisi .env/kredensial) — jangan commit.
+*.zip
+*.rar
+*.7z
+*.tar.gz
