@@ -123,5 +123,7 @@ ul.task-list{list-style:none;padding-left:0}
 .comment-form{margin-top:22px;background:var(--panel)}
 /* Diagram silsilah (halaman family) */
 .mermaid{display:flex;justify-content:center;overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+:root[data-theme="dark"] .mermaid{background:transparent;border:none}
+:root[data-theme="dark"] .mermaid svg{filter:invert(0.92) hue-rotate(180deg)}
 .hp-field{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
 @media(max-width:760px){.editor-wrap{grid-template-columns:1fr}.preview-pane{border-left:none;border-top:1px solid var(--line)}.form-row{grid-template-columns:1fr}}

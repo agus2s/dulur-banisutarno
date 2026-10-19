@@ -101,9 +101,12 @@ else {
 <script>lucide.createIcons();</script>
 <script src="<?= base_url('assets/theme.js') ?>"></script>
 <?php if (!empty($isFamily) && ($tree ?? '') !== ''): ?>
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@12/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({startOnLoad:true});
+<script src="<?= base_url('assets/mermaid.min.js') ?>"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'neutral'
+  });
 </script>
 <?php endif; ?>
 </body>
