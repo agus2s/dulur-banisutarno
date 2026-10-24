@@ -245,41 +245,9 @@ function footer_text(): string {
     return setting('footer_text', '© 2026 Agus Supriyadi • Blog Dulur');
 }
 
-/** Warna gradien hero (disetel via Admin → Pengaturan, selalu hex valid). */
-define('DEFAULT_GRAD_FROM', '#4f46e5');
-define('DEFAULT_GRAD_TO', '#db2777');
-define('DEFAULT_ACCENT', '#4f46e5');
-
-function grad_from(): string {
-    $v = setting('grad_from', DEFAULT_GRAD_FROM);
-    return preg_match('/^#[0-9a-fA-F]{6}$/', $v) ? $v : DEFAULT_GRAD_FROM;
-}
-
-function grad_to(): string {
-    $v = setting('grad_to', DEFAULT_GRAD_TO);
-    return preg_match('/^#[0-9a-fA-F]{6}$/', $v) ? $v : DEFAULT_GRAD_TO;
-}
-
 /** Tampilkan tombol "teks asli" di halaman artikel publik. */
 function show_article_source(): bool {
     return setting('show_source', '1') === '1';
-}
-
-/** Warna aksen situs (badge, tombol, link). */
-function accent(): string {
-    $v = setting('accent', DEFAULT_ACCENT);
-    return preg_match('/^#[0-9a-fA-F]{6}$/', $v) ? $v : DEFAULT_ACCENT;
-}
-
-/** Gelapkan/terangkan hex (#rrggbb). $factor <1 gelap, >1 terang. */
-function shade_hex(string $hex, float $factor): string {
-    $hex = ltrim($hex, '#');
-    if (strlen($hex) === 3) $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
-    if (!preg_match('/^[0-9a-fA-F]{6}$/', $hex)) return '#4f46e5';
-    $r = min(255, max(0, (int)round(hexdec(substr($hex, 0, 2)) * $factor)));
-    $g = min(255, max(0, (int)round(hexdec(substr($hex, 2, 2)) * $factor)));
-    $b = min(255, max(0, (int)round(hexdec(substr($hex, 4, 2)) * $factor)));
-    return sprintf('#%02x%02x%02x', $r, $g, $b);
 }
 
 function require_login(): void {

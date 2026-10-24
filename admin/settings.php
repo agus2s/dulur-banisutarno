@@ -7,37 +7,22 @@ require_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        if (isset($_POST['reset_colors'])) {
-            save_setting('grad_from', DEFAULT_GRAD_FROM);
-            save_setting('grad_to', DEFAULT_GRAD_TO);
-            save_setting('accent', DEFAULT_ACCENT);
-            flash('Warna gradien & aksen dikembalikan ke bawaan.');
-        } else {
         $name = trim($_POST['site_name'] ?? '');
         $desc = trim($_POST['site_desc'] ?? '');
         $foot = trim($_POST['footer_text'] ?? '');
-        $gf = trim($_POST['grad_from'] ?? '');
-        $gt = trim($_POST['grad_to'] ?? '');
-        $ac = trim($_POST['accent'] ?? '');
         $src = isset($_POST['show_source']) ? '1' : '0';
         $cEnabled = isset($_POST['comments_enabled']) ? '1' : '0';
         $cAuto = isset($_POST['comments_auto_approve']) ? '1' : '0';
         if ($name === '') {
             flash('Judul situs wajib diisi.', 'danger');
-        } elseif (!preg_match('/^#[0-9a-fA-F]{6}$/', $gf) || !preg_match('/^#[0-9a-fA-F]{6}$/', $gt) || !preg_match('/^#[0-9a-fA-F]{6}$/', $ac)) {
-            flash('Warna gradien/aksen tidak valid.', 'danger');
         } else {
             save_setting('site_name', $name);
             save_setting('site_desc', $desc);
             save_setting('footer_text', $foot);
-            save_setting('grad_from', $gf);
-            save_setting('grad_to', $gt);
-            save_setting('accent', $ac);
             save_setting('show_source', $src);
             save_setting('comments_enabled', $cEnabled);
             save_setting('comments_auto_approve', $cAuto);
             flash('Pengaturan disimpan.');
-        }
         }
     } catch (Throwable $e) { flash('Gagal: ' . $e->getMessage(), 'danger'); }
     header('Location: ' . base_url('admin/settings.php'));
@@ -84,24 +69,6 @@ adminlte_head('Pengaturan Umum', 'settings');
               <div class="form-text">Tampil di kaki halaman utama.</div>
             </div>
             <div class="mb-3">
-              <label class="form-label fw-bold d-flex align-items-center gap-1"><i data-lucide="palette"></i> Warna gradien hero</label>
-              <div class="d-flex gap-3">
-                <div>
-                  <input type="color" name="grad_from" class="form-control form-control-color" value="<?= e(grad_from()) ?>" title="Warna awal">
-                  <small class="text-muted">Awal</small>
-                </div>
-                <div>
-                  <input type="color" name="grad_to" class="form-control form-control-color" value="<?= e(grad_to()) ?>" title="Warna akhir">
-                  <small class="text-muted">Akhir</small>
-                </div>
-                <div>
-                  <input type="color" name="accent" class="form-control form-control-color" value="<?= e(accent()) ?>" title="Warna aksen">
-                  <small class="text-muted">Aksen</small>
-                </div>
-              </div>
-              <div class="form-text">Latar kepala halaman utama, dari kiri atas ke kanan bawah. Aksen untuk badge, tombol, dan tautan. Bawaan: awal <code>#4f46e5</code>, akhir <code>#db2777</code>, aksen <code>#4f46e5</code>.</div>
-            </div>
-            <div class="mb-3">
               <div class="form-check form-switch">
                 <input type="checkbox" name="show_source" value="1" class="form-check-input" id="show-source" <?= show_article_source() ? 'checked' : '' ?>>
                 <label class="form-check-label fw-bold" for="show-source">Tampilkan teks asli di pos publik</label>
@@ -125,7 +92,6 @@ adminlte_head('Pengaturan Umum', 'settings');
           </div>
           <div class="card-footer d-flex gap-2">
             <button class="btn btn-primary d-inline-flex align-items-center gap-1" type="submit"><i data-lucide="save"></i> Simpan Perubahan</button>
-            <button class="btn btn-outline-warning d-inline-flex align-items-center gap-1" type="submit" name="reset_colors" value="1" formnovalidate onclick="return confirm('Kembalikan warna gradien & aksen ke bawaan?')"><i data-lucide="rotate-ccw"></i> Reset warna</button>
             <a class="btn btn-outline-secondary d-inline-flex align-items-center gap-1" href="<?= base_url('admin/index.php') ?>"><i data-lucide="arrow-left"></i> Batal</a>
           </div>
         </form>

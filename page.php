@@ -40,11 +40,10 @@ else {
 <link rel="icon" type="image/svg+xml" href="<?= base_url('assets/favicon.svg') ?>">
 <link rel="apple-touch-icon" href="<?= base_url('assets/icons/apple-touch-icon.png') ?>">
 <link rel="manifest" href="<?= base_url('manifest.webmanifest') ?>">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#059669">
 <meta name="color-scheme" content="light dark">
-<script>try{if((localStorage.getItem('tema')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
+<script>try{var m=(localStorage.getItem('tema')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));document.documentElement.style.colorScheme=m;if(m==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
 <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
-<style>:root{--brand:<?= e(accent()) ?>;--brand2:<?= e(shade_hex(accent(), 0.8)) ?>}.logo span{color:color-mix(in srgb, var(--brand) 55%, #fff)}.badge{background:color-mix(in srgb, var(--brand) 12%, #fff)}</style>
 <style>
   body{font-family:"Inter",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif}
   .lucide{width:16px;height:16px;vertical-align:-3px}
@@ -60,6 +59,7 @@ else {
 <body>
 <nav class="nav"><div class="nav-inner">
   <a class="logo" href="<?= base_url('index.php') ?>"><i data-lucide="notebook-pen"></i> <?php [$logoA, $logoB] = site_name_parts(); ?><span><?= e($logoA) ?></span><?= $logoB !== '' ? e($logoB) : '' ?></a>
+  <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Buka menu" aria-expanded="false" title="Buka menu"><i data-lucide="menu"></i></button>
   <div class="nav-links">
     <a href="<?= base_url('index.php') ?>"><i data-lucide="house"></i>Beranda</a>
     <?php foreach (($navPages ?? []) as $np): ?>
@@ -100,6 +100,7 @@ else {
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>lucide.createIcons();</script>
 <script src="<?= base_url('assets/theme.js') ?>"></script>
+<script src="<?= base_url('assets/nav.js') ?>"></script>
 <?php if (!empty($isFamily) && ($tree ?? '') !== ''): ?>
 <script src="<?= base_url('assets/mermaid.min.js') ?>"></script>
 <script>

@@ -72,9 +72,6 @@ INSERT IGNORE INTO settings (`k`, `v`) VALUES
 ('site_name', 'Blog Dulur'),
 ('site_desc', 'Blog sederhana untuk berbagi tulisan dan kabar'),
 ('footer_text', 'Blog Dulur • Berbagi tulisan dan kabar'),
-('grad_from', '#4f46e5'),
-('grad_to', '#db2777'),
-('accent', '#4f46e5'),
 ('show_source', '1');
 
 -- password = admin123 (hash bcrypt valid; install.php memakai password_hash saat runtime)

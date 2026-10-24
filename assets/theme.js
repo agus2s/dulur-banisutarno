@@ -16,6 +16,7 @@
   function terapkan(mode) {
     if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     else document.documentElement.removeAttribute('data-theme');
+    document.documentElement.style.colorScheme = mode;
     try { localStorage.setItem('tema', mode); } catch (e) {}
   }
   document.addEventListener('DOMContentLoaded', function () {

@@ -49,7 +49,7 @@ body { font-family: var(--bs-body-font-family); font-feature-settings: 'cv11', '
   .preview-pane pre, #md-preview pre { background: #0f172a; color: #e2e8f0; padding: 12px; border-radius: .5rem; overflow: auto; }
   .preview-pane code, #md-preview code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; }
   .preview-pane pre code, #md-preview pre code { background: transparent; padding: 0; }
-  .preview-pane blockquote, #md-preview blockquote { border-left: 4px solid #4f46e5; background: #f8fafc; padding: .4em .9em; margin: 1em 0; }
+  .preview-pane blockquote, #md-preview blockquote { border-left: 4px solid #059669; background: #f8fafc; padding: .4em .9em; margin: 1em 0; }
   .preview-pane table, #md-preview table { width: 100%; border-collapse: collapse; margin: 1em 0; }
   .preview-pane th, .preview-pane td, #md-preview th, #md-preview td { border: 1px solid #dee2e6; padding: 7px 10px; }
   .toolbar .btn { display: inline-flex; align-items: center; gap: 4px; }
